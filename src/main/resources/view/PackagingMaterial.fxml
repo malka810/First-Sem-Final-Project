@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="AnchorPane" stylesheets="@../Style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.PackagingMaterialController">
+   <children>
+      <Label alignment="CENTER" layoutX="236.0" layoutY="14.0" prefHeight="31.0" prefWidth="195.0" text="Packaging Material" textFill="#320909">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TableView layoutX="9.0" layoutY="245.0" prefHeight="188.0" prefWidth="625.0">
+        <columns>
+          <TableColumn prefWidth="101.0" text="Product Id" />
+          <TableColumn prefWidth="116.0" text="PackagingM Id" />
+            <TableColumn prefWidth="137.0" text="Packaging Size" />
+            <TableColumn prefWidth="139.0" text="Quality Check" />
+            <TableColumn prefWidth="131.0" text="Return" />
+        </columns>
+      </TableView>
+      <Label layoutX="48.0" layoutY="84.0" text="PackagingM Id :" />
+      <Label layoutX="168.0" layoutY="84.0" />
+      <Label layoutX="316.0" layoutY="84.0" text="Date :" />
+      <Label layoutX="362.0" layoutY="84.0" />
+      <Label layoutX="48.0" layoutY="124.0" text="Supplier Id :" />
+      <JFXComboBox layoutX="133.0" layoutY="120.0" prefHeight="24.0" prefWidth="103.0" />
+      <Label layoutX="316.0" layoutY="124.0" text="Name :" />
+      <Label layoutX="378.0" layoutY="124.0" />
+      <Label layoutX="413.0" layoutY="124.0" text="Stock Qty :" />
+   </children>
+</AnchorPane>

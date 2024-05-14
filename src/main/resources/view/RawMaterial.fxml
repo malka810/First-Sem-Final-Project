@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="AnchorPane" stylesheets="@../Style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.RawMaterialController">
+   <children>
+      <Label alignment="CENTER" layoutX="232.0" layoutY="33.0" prefHeight="16.0" prefWidth="186.0" text="Raw Material" />
+      <Label layoutX="64.0" layoutY="91.0" text=" Raw Material Id:" />
+      <Label layoutX="64.0" layoutY="150.0" text="Supplier Id :" />
+      <Label layoutX="382.0" layoutY="91.0" prefHeight="16.0" prefWidth="50.0" text="Date :" />
+      <Label layoutX="258.0" layoutY="150.0" text="Name :" />
+      <Label layoutX="418.0" layoutY="150.0" text="Stock qty :" />
+      <TableView layoutX="32.0" layoutY="252.0" prefHeight="135.0" prefWidth="579.0">
+         <columns>
+            <TableColumn prefWidth="108.0" text="Product Id" />
+            <TableColumn prefWidth="95.0" text="Raw Id" />
+            <TableColumn prefWidth="95.0" text="Weight" />
+            <TableColumn prefWidth="95.0" text="Production" />
+            <TableColumn prefWidth="95.0" text="Qty Out" />
+            <TableColumn prefWidth="95.0" text="Balance" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

@@ -1,0 +1,30 @@
+
+.AnchorPane{
+    -fx-background-color: linear-gradient(to bottom, #FFF4D9,#f5cfff,#cce8ca);
+    -fx-border-color: #c6bff3;
+}
+.button{
+    -fx-background-color: linear-gradient(to bottom, #cce8ca, #f7e191);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #9aa7ff;
+}
+
+.ButtonD{
+    -fx-background-color: linear-gradient(to right bottom,#FFF4D9,#f5cfff ,#eeeeee);
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #FFF4D9;
+}
+
+.sideAnchorPane{
+    -fx-background-color: linear-gradient(to bottom,#FFF4D9 ,#f5cfff
+    );
+}
+.buttonplaceorder{
+    -fx-background-color: linear-gradient(to bottom,#FFF4D9,#cce8ca);
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #f5cfff;
+
+}

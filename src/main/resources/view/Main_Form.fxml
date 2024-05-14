@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootNode" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.MainFormController">
+   <children>
+      <AnchorPane prefHeight="585.0" prefWidth="243.0" styleClass="sideAnchorPane" stylesheets="@../Style/style.css">
+         <children>
+            <Line endX="99.0" layoutX="116.0" layoutY="85.0" startX="-100.0" stroke="#697dc6" />
+            <Button layoutX="107.0" layoutY="528.0" mnemonicParsing="false" onAction="#btnLogoutAction" prefHeight="34.0" prefWidth="115.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Log Out" textFill="#697dc6">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../icon/logout-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label layoutX="85.0" layoutY="26.0" prefHeight="16.0" prefWidth="115.0" text="SUNFLOWER" textFill="#697dc6">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="74.0" layoutY="49.0" text="Food Product pvt(ltd)" textFill="#697dc6" />
+            <VBox layoutX="16.0" layoutY="121.0" prefHeight="374.0" prefWidth="138.0" stylesheets="@../Style/style.css">
+               <children>
+                  <Button alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnDashboardOnAction" prefHeight="47.0" prefWidth="196.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text="  DashBoard" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="23.0">
+                           <image>
+                              <Image url="@../icon/dashboard.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnCustomer" alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnCustomerOnAction" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text=" Customer" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="25.0">
+                           <image>
+                              <Image url="@../icon/customer-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnOrdersOnAction" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text=" Orders" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0">
+                           <image>
+                              <Image url="@../icon/order-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#btnProductOnAction" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text=" Product" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0">
+                           <image>
+                              <Image url="@../icon/product-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnEmployeeOnAction" prefHeight="47.0" prefWidth="138.0" style="-fx-background-color: transparenttransparent; -fx-border-color: transparent;" text="Employee" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0">
+                           <image>
+                              <Image url="@../icon/employee-50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnSupplierOnAction" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text=" Supplier" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0">
+                           <image>
+                              <Image url="@../icon/supplier-64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button alignment="TOP_LEFT" focusTraversable="false" mnemonicParsing="false" onAction="#btnInventoryOnAction" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" text=" Inventory" textFill="#697dc6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0">
+                           <image>
+                              <Image url="@../icon/inventory-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+            <ImageView fitHeight="56.0" fitWidth="55.0" layoutX="14.0" layoutY="17.0">
+               <image>
+                  <Image url="@../../../../../../../Downloads/noodle-64.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="CenterNode" layoutX="243.0" prefHeight="585.0" prefWidth="763.0" style="-fx-background-color: #a3a0a9;" />
+   </children>
+</AnchorPane>

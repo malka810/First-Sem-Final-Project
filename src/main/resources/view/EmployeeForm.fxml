@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootNode" prefHeight="585.0" prefWidth="763.0" styleClass="AnchorPane" stylesheets="@../Style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.EmployeeFormController">
+   <children>
+      <Label alignment="CENTER" layoutX="94.0" layoutY="32.0" prefHeight="16.0" prefWidth="258.0" text="Employee Manage" textFill="#2f4d0e">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblEmployee" layoutX="75.0" layoutY="106.0" prefHeight="174.0" prefWidth="614.0">
+        <columns>
+          <TableColumn fx:id="colEmployeeId" prefWidth="154.0" text="Employee Id" />
+          <TableColumn fx:id="colE_Name" prefWidth="138.0" text="E_Name" />
+            <TableColumn fx:id="colDepartment" prefWidth="174.0" text="Department" />
+            <TableColumn fx:id="colRole" prefWidth="146.0" text="Role" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtSearchId" alignment="CENTER_RIGHT" layoutX="575.0" layoutY="35.0" onAction="#txtSearchOnAction" opacity="0.41" prefHeight="24.0" prefWidth="146.0" promptText="Search here" />
+      <VBox layoutX="527.0" layoutY="318.0" prefHeight="222.0" prefWidth="127.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="60.0" prefWidth="127.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Save">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="60.0" prefWidth="127.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Update">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="60.0" prefWidth="142.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Delete">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#btnClearOnAction" prefHeight="60.0" prefWidth="127.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Clear">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox layoutX="162.0" layoutY="293.0" prefHeight="253.0" prefWidth="232.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="232.0" text="Employee ID*">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtEmployeeId" onAction="#txtSearchOnAction" opacity="0.27" prefHeight="25.0" prefWidth="232.0" />
+            <Label prefHeight="35.0" prefWidth="232.0" text="Employee Name*">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtE_Name" opacity="0.26" prefHeight="25.0" prefWidth="232.0" />
+            <Label prefHeight="35.0" prefWidth="232.0" text="Department*">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDepartment" opacity="0.26" prefHeight="25.0" prefWidth="232.0" />
+            <Label prefHeight="35.0" prefWidth="232.0" text="Role*">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtRole" opacity="0.26" prefHeight="25.0" prefWidth="232.0" />
+         </children>
+      </VBox>
+      <ImageView fitHeight="21.0" fitWidth="17.0" layoutX="582.0" layoutY="37.0">
+         <image>
+            <Image url="@../icon/search.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="49.0" fitWidth="60.0" layoutX="34.0" layoutY="22.0">
+         <image>
+            <Image url="@../icon/employees.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
