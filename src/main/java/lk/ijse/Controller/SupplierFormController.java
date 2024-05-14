@@ -55,6 +55,7 @@ public class SupplierFormController {
     private void loadAllSupplier() {
         ObservableList<Supplier> obList = FXCollections.observableArrayList();
 
+
         try {
             List<Supplier> supplierList = SupplierRepo.getAll();
             for (Supplier supplier : supplierList) {
