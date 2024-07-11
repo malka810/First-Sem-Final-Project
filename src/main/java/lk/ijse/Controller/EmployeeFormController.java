@@ -1,7 +1,6 @@
 package lk.ijse.Controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,11 +9,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.model.Tm.EmployeeTm;
-import lk.ijse.model.Employee;
-import lk.ijse.repository.EmployeeRepo;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.EmployeeBO;
+import lk.ijse.dto.EmployeeDTO;
+import lk.ijse.view.tdm.EmployeeTm;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EmployeeFormController {
@@ -35,7 +37,7 @@ public class EmployeeFormController {
     private AnchorPane rootNode;
 
     @FXML
-    private TableView<Employee> tblEmployee;
+    private TableView<EmployeeTm> tblEmployee;
 
     @FXML
     private TextField txtDepartment;
@@ -49,131 +51,249 @@ public class EmployeeFormController {
     @FXML
     private TextField txtRole;
 
+    @FXML
+    private JFXButton btnAddNewEmployee;
+
+    @FXML
+    private JFXButton btnDelete;
+
+    @FXML
+    private JFXButton btnSave;
+
+    @FXML
+    private JFXButton btnUpdate;
+
+    EmployeeBO employeeBO  = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.Employee);
+
     public void initialize() {
-        setCellValueFactory();
+//        setCellValueFactory();
+//        loadAllEmployee();
+        tblEmployee.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("employee_id"));
+        tblEmployee.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("e_name"));
+        tblEmployee.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("department"));
+        tblEmployee.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("role"));
+
+        initUI();
+
+        tblEmployee.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnDelete.setDisable(newValue == null);
+            btnSave.setText(newValue != null ? "Update" : "Save");
+            btnSave.setDisable(newValue == null);
+
+            if (newValue != null) {
+                txtEmployeeId.setText(newValue.getEmployee_id());
+                txtE_Name.setText(newValue.getE_name());
+                txtDepartment.setText(newValue.getDepartment());
+                txtRole.setText(newValue.getRole());
+
+                txtEmployeeId.setDisable(false);
+                txtE_Name.setDisable(false);
+                txtDepartment.setDisable(false);
+                txtRole.setDisable(false);
+            }
+        });
+
+        txtRole.setOnAction(event -> btnSave.fire());
         loadAllEmployee();
+
+    }
+
+    private void initUI() {
+        txtEmployeeId.clear();
+        txtE_Name.clear();
+        txtDepartment.clear();
+        txtRole.clear();
+        txtEmployeeId.setDisable(true);
+        txtE_Name.setDisable(true);
+        txtDepartment.setDisable(true);
+        txtRole.setEditable(false);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
     }
 
     private void loadAllEmployee() throws RuntimeException{
-        ObservableList<Employee> obList = FXCollections.observableArrayList();
-
+        tblEmployee.getItems().clear();
         try {
-            List<Employee> empList = EmployeeRepo.getAll();
-            for (Employee employee : empList) {
-                EmployeeTm employeeTm = new EmployeeTm(
-                        employee.getEmployeeId(),
-                        employee.getE_Name(),
-                        employee.getDepartment(),
-                        employee.getRole()
-                );
+            /*Get all customers*/
+            ArrayList<EmployeeDTO> allEmployee = employeeBO.getAllEmployee();
 
-                obList.add(employeeTm);
-            }
-
-            tblEmployee.setItems(obList);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
-
-    private void setCellValueFactory() {
-        colEmployeeId.setCellValueFactory(new PropertyValueFactory<>("EmployeeId"));
-        colE_Name.setCellValueFactory(new PropertyValueFactory<>("E_Name"));
-        colDepartment.setCellValueFactory(new PropertyValueFactory<>("Department"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("Role"));
-    }
-
-
-    @FXML
-    void btnClearOnAction(ActionEvent event) {
-        clearFields();
-
-    }
-
-    private void clearFields() {
-        txtEmployeeId.setText("");
-        txtE_Name.setText("");
-        txtDepartment.setText("");
-        txtRole.setText("");
-    }
-
-    @FXML
-    void btnDeleteOnAction(ActionEvent event) {
-        String EmployeeId= txtEmployeeId.getText();
-
-        try {
-            boolean isDeleted = EmployeeRepo.delete(EmployeeId);
-            if(isDeleted) {
-                new Alert(Alert.AlertType.CONFIRMATION, "employee deleted!").show();
-                initialize();
+            for (EmployeeDTO e : allEmployee) {
+                tblEmployee.getItems().add(new EmployeeTm(e.getEmployee_id(), e.getE_name(), e.getDepartment(),e.getRole()));
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+//    private void setCellValueFactory() {
+//        colEmployeeId.setCellValueFactory(new PropertyValueFactory<>("EmployeeId"));
+//        colE_Name.setCellValueFactory(new PropertyValueFactory<>("E_Name"));
+//        colDepartment.setCellValueFactory(new PropertyValueFactory<>("Department"));
+//        colRole.setCellValueFactory(new PropertyValueFactory<>("Role"));
+//    }
+//
+//
+//    @FXML
+//    void btnClearOnAction(ActionEvent event) {
+//        clearFields();
+//
+//    }
+
+//    private void clearFields() {
+//        txtEmployeeId.setText("");
+//        txtE_Name.setText("");
+//        txtDepartment.setText("");
+//        txtRole.setText("");
+//    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+
+        String id = tblEmployee.getSelectionModel().getSelectedItem().getEmployee_id();
+        try {
+            if (!existEmployee(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such employee associated with the id " + id).show();
+            }
+
+            employeeBO.deleteEmployee(id);
+
+            tblEmployee.getItems().remove(tblEmployee.getSelectionModel().getSelectedItem());
+            tblEmployee.getSelectionModel().clearSelection();
+            initUI();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the employee " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    private boolean existEmployee(String id) throws SQLException,ClassNotFoundException{
+        return employeeBO.existEmployee(id);
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        String employeeId = txtEmployeeId.getText();
-        String eName = txtE_Name.getText();
-        String department   = txtDepartment.getText();
+        String id = txtEmployeeId.getText();
+        String name = txtE_Name.getText();
+        String department = txtDepartment.getText();
         String role = txtRole.getText();
 
-        Employee employee = new Employee(employeeId,eName,department,role);
-
-        try {
-            boolean isSaved = EmployeeRepo.save(employee);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION, "employee saved!").show();
-                clearFields();
-                initialize();
-
-            }
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-
+        if (!name.matches("[A-Za-z ]+")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid name").show();
+            txtE_Name.requestFocus();
+            return;
+        } else if (!department.matches(".{3,}")) {
+            new Alert(Alert.AlertType.ERROR, "Address should be at least 3 characters long").show();
+            txtDepartment.requestFocus();
+            return;
         }
+        try {
+            if (existEmployee(id)) {
+                new Alert(Alert.AlertType.ERROR, id + " already exists").show();
+            }
+            employeeBO.addEmployee(new EmployeeDTO(id,name,department,role));
+
+            tblEmployee.getItems().add(new EmployeeTm(id, name, department,role));
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to save the employee " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        EmployeeTm selectedEmployee = tblEmployee.getSelectionModel().getSelectedItem();
+        selectedEmployee.setE_name(name);
+        selectedEmployee.setDepartment(department);
+        tblEmployee.refresh();
+
+        btnAddNewEmployee.fire();
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        String EmployeeId = txtEmployeeId.getText();
-        String Name = txtE_Name.getText();
-        String Department = txtDepartment.getText();
-        String Role = txtRole.getText();
-
-        Employee employee = new Employee(EmployeeId, Name, Department, Role);
+        String id = txtEmployeeId.getText();
+        String name = txtE_Name.getText();
+        String department = txtDepartment.getText();
+        String role = txtRole.getText();
 
         try {
-            boolean isUpdated = EmployeeRepo.update(employee);
-            if(isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION, "employee updated!").show();
-                initialize();
+            if (!existEmployee(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such employee associated with the id " + id).show();
             }
+            employeeBO.updateEmployee(new EmployeeDTO(id,name,department,role));
+
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Failed to update the employee " + id + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+        EmployeeTm selectedEmployee = tblEmployee.getSelectionModel().getSelectedItem();
+        selectedEmployee.setE_name(name);
+        selectedEmployee.setDepartment(department);
+        tblEmployee.refresh();
 
     }
 
+//    @FXML
+//    void txtSearchOnAction(ActionEvent event) throws SQLException {
+//        String EmployeeId = txtSearchId.getText();
+//
+//        Employee employee = EmployeeRepo.searchById(EmployeeId);
+//        if (employee != null) {
+//            txtEmployeeId.setText(employee.getEmployeeId());
+//            txtE_Name.setText(employee.getE_Name());
+//            txtDepartment.setText(employee.getDepartment());
+//            txtRole.setText(employee.getRole());
+//        } else {
+//            new Alert(Alert.AlertType.INFORMATION, "employee not found!").show();
+//        }
+//
+//    }
     @FXML
-    void txtSearchOnAction(ActionEvent event) throws SQLException {
-        String EmployeeId = txtSearchId.getText();
-
-        Employee employee = EmployeeRepo.searchById(EmployeeId);
-        if (employee != null) {
-            txtEmployeeId.setText(employee.getEmployeeId());
-            txtE_Name.setText(employee.getE_Name());
-            txtDepartment.setText(employee.getDepartment());
-            txtRole.setText(employee.getRole());
-        } else {
-            new Alert(Alert.AlertType.INFORMATION, "employee not found!").show();
-        }
+    void btnAddNewEmployeeOnAction(ActionEvent event) {
+        txtEmployeeId.setDisable(false);
+        txtE_Name.setDisable(false);
+        txtDepartment.setDisable(false);
+        txtRole.setDisable(false);
+        txtEmployeeId.clear();
+        txtE_Name.setText(generateNewId());
+        txtDepartment.clear();
+        txtRole.clear();
+        txtE_Name.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblEmployee.getSelectionModel().clearSelection();
 
     }
+
+    private String generateNewId() {
+        try {
+            //Generate New ID
+            return employeeBO.generateNewEmployeeID();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        if (tblEmployee.getItems().isEmpty()) {
+            return "E00-001";
+        } else {
+            String id = getLastEmployeeId();
+            int newEmployeeId = Integer.parseInt(id.replace("E", "")) + 1;
+            return String.format("E00-%03d", newEmployeeId);
+        }
+    }
+
+    private String getLastEmployeeId() {
+        List<EmployeeTm> tempEmployeeList = new ArrayList<>(tblEmployee.getItems());
+        Collections.sort(tempEmployeeList);
+        return tempEmployeeList.get(tempEmployeeList.size() - 1).getEmployee_id();
+    }
+
 
 }

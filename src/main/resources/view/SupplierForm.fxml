@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -33,22 +33,6 @@
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
-        <Button layoutX="508.0" layoutY="283.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="52.0" prefWidth="139.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Save" textFill="#141111">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font></Button>
-        <Button layoutX="508.0" layoutY="435.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="52.0" prefWidth="139.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Delete" textFill="#141111">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font></Button>
-        <Button layoutX="508.0" layoutY="513.0" mnemonicParsing="false" onAction="#btnClearOnAction" prefHeight="52.0" prefWidth="139.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Clear" textFill="#141111">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font></Button>
-        <Button layoutX="508.0" layoutY="357.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="52.0" prefWidth="139.0" styleClass="ButtonD" stylesheets="@../Style/style.css" text="Update" textFill="#141111">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font></Button>
         <TextField fx:id="txtSupId" layoutX="121.0" layoutY="326.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
         <TextField fx:id="txtSupName" layoutX="121.0" layoutY="400.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
         <TextField fx:id="txtSupAddress" layoutX="121.0" layoutY="475.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
@@ -72,5 +56,9 @@
             <Image url="@../icon/search.png" />
          </image>
       </ImageView>
+      <JFXButton fx:id="btnAddNew" layoutX="337.0" layoutY="31.0" onAction="#btnAddNewOnAction" prefHeight="26.0" prefWidth="61.0" text="New" />
+      <JFXButton fx:id="btnDelete" layoutX="643.0" layoutY="508.0" onAction="#btnDeleteOnAction" text="Delete" />
+      <JFXButton fx:id="btnSave" layoutX="638.0" layoutY="411.0" onAction="#btnSaveOnAction" prefHeight="26.0" prefWidth="68.0" text="Save" />
+      <JFXButton fx:id="btnUpdate" layoutX="641.0" layoutY="462.0" onAction="#btnUpdateOnAction" text="Update" />
     </children>
 </AnchorPane>

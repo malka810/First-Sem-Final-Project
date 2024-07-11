@@ -9,7 +9,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.UserBO;
+import lk.ijse.bo.custom.impl.UserBOImpl;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.db.DbConnection;
+import lk.ijse.dto.UserDTO;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -30,6 +34,8 @@ public class RegistrationFormController {
     @FXML
     private TextField txtuserID;
 
+    UserBO userBO = new UserBOImpl();
+
     @FXML
     void btnRegisterOnAction(ActionEvent event) {
         String userid = txtuserID.getText();
@@ -37,13 +43,21 @@ public class RegistrationFormController {
         String pw = txtPassWord.getText();
 
         try {
-            boolean isSaved = saveUser(userid, username, pw);
-            if(isSaved) {
+            //boolean isSaved = saveUser(userid, username, pw);
+            //userBO.saveUser(new UserDTO(userid,username, pw));
+
+            if(isSaved(userid)) {
                 new Alert(Alert.AlertType.CONFIRMATION, "user saved!").show();
             }
+            userBO.saveUser(new UserDTO(userid,username, pw));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+
+    }
+
+    private boolean isSaved(String userid) throws SQLException,ClassNotFoundException{
+        return userBO.isSaved(userid);
 
     }
 
