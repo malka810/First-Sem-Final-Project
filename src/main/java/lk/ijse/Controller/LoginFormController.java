@@ -10,7 +10,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.DAOFactory;
+import lk.ijse.dao.custom.UserDAO;
 import lk.ijse.db.DbConnection;
+import lk.ijse.entity.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,41 +32,49 @@ public class LoginFormController {
     @FXML
     private TextField txtUserName;
 
+    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.User);
+
     @FXML
-    void btnLoginOnAction(ActionEvent event){
+    void btnLoginOnAction(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         String username = txtUserName.getText();
-        String pw = txtPassWord.getText();
+        String password = txtPassWord.getText();
 
         try {
-            checkCredential(username, pw);
+            checkCredential(username, password);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
 
+        txtUserName.clear();
+        txtPassWord.clear();
+
     }
 
-    private void checkCredential(String username, String pw) throws SQLException {
-        String sql = "SELECT username, password FROM User WHERE username = ?";
-
-        Connection connection = DbConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setObject(1, username);
-
-        ResultSet resultSet = pstm.executeQuery();
-        if(resultSet.next()) {
-            String dbPw = resultSet.getString("password");
-
-            if(pw.equals(dbPw)) {
-                navigateToTheDashboard();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "sorry! password is incorrect!").show();
-            }
-
-        } else {
-            new Alert(Alert.AlertType.INFORMATION, "sorry! user name can't be find!").show();
+    private void checkCredential(String username, String password) throws SQLException,ClassNotFoundException,IOException {
+        if(username.isEmpty() && password.isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"Empty fields Try again!").show();
+            return;
         }
-
+        if(username.isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"User is Empty!").show();
+            return;
+        }
+        if(password.isEmpty()){
+            new Alert(Alert.AlertType.INFORMATION,"Password is empty!").show();
+        }
+        User userDTO=userDAO.checkPassword(username,password);
+        if(userDTO==null){
+            new Alert(Alert.AlertType.INFORMATION,"Sorry userId can't be find").show();
+            return;
+        }
+        if(!userDTO.getPassword().equals(password)){
+            new Alert(Alert.AlertType.ERROR,"Sorry! wrong password").show();
+            // System.out.println("Sorry");
+            return;
+        }
+        navigateToTheDashboard();
     }
+
 
     private void navigateToTheDashboard() {
         try {
