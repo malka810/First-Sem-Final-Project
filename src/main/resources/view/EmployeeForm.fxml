@@ -41,7 +41,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="txtEmployeeId" onAction="#txtSearchOnAction" opacity="0.27" prefHeight="25.0" prefWidth="232.0" />
+            <TextField fx:id="txtEmployeeId" opacity="0.27" prefHeight="25.0" prefWidth="232.0" />
             <Label prefHeight="35.0" prefWidth="232.0" text="Employee Name*">
                <font>
                   <Font name="System Bold" size="13.0" />

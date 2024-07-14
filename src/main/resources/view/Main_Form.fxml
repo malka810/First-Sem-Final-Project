@@ -122,7 +122,7 @@
             </VBox>
             <ImageView fitHeight="56.0" fitWidth="55.0" layoutX="14.0" layoutY="17.0">
                <image>
-                  <Image url="@../../../../../../../Downloads/noodle-64.png" />
+                  <Image url="@../icon/noodles-94.png" />
                </image>
             </ImageView>
          </children>

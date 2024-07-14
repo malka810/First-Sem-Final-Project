@@ -64,7 +64,7 @@ public class SupplierFormController {
         tblSupplier.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("supplier_id"));
         tblSupplier.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         tblSupplier.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("contact"));
-        tblSupplier.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
+        tblSupplier.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("address"));
 
         initUI();
 
@@ -110,10 +110,12 @@ public class SupplierFormController {
         txtSupName.clear();
         txtSupTel.clear();
         txtSupAddress.clear();
+
         txtSupId.setDisable(true);
         txtSupName.setDisable(true);
         txtSupTel.setDisable(true);
         txtSupAddress.setDisable(true);
+
         txtSupId.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
@@ -171,6 +173,7 @@ public class SupplierFormController {
             txtSupAddress.requestFocus();
             return;
         }
+        if (btnSave.getText().equalsIgnoreCase("save")) {
         try {
             if (existSupplier(id)) {
                 new Alert(Alert.AlertType.ERROR, id + " already exists").show();
@@ -185,40 +188,31 @@ public class SupplierFormController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        SupplierTm selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
-        selectedSupplier.setName(name);
-        selectedSupplier.setAddress(address);
-        tblSupplier.refresh();
 
-        btnAddNew.fire();
+    }else {
 
-    }
 
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String id = txtSupId.getText();
-        String name = txtSupName.getText();
-        String address = txtSupAddress.getText();
-        String contact = txtSupTel.getText();
+            try {
+                if (!existSupplier(id)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+                }
 
-        try {
-            if (!existSupplier(id)) {
-                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+                //Update Customer
+                supplierBO.updateSupplier(new SupplierDTO(id, name, address, contact));
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
-            //Update Customer
-            supplierBO.updateSupplier(new SupplierDTO(id,name,address,contact));
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            SupplierTm selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
+            selectedSupplier.setName(name);
+            selectedSupplier.setAddress(address);
+            tblSupplier.refresh();
         }
+        btnAddNew.fire();
 
-        SupplierTm selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
-        selectedSupplier.setName(name);
-        selectedSupplier.setAddress(address);
-        tblSupplier.refresh();
     }
 //    @FXML
 //    void btnSearchOnAction(ActionEvent event) throws SQLException {
@@ -280,6 +274,8 @@ public class SupplierFormController {
     }
 
 
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    }
 }
 
 

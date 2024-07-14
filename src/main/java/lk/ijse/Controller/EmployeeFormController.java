@@ -71,7 +71,7 @@ public class EmployeeFormController {
         tblEmployee.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("employee_id"));
         tblEmployee.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("e_name"));
         tblEmployee.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("department"));
-        tblEmployee.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("role"));
+        tblEmployee.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("role"));
 
         initUI();
 
@@ -182,47 +182,27 @@ public class EmployeeFormController {
         String department = txtDepartment.getText();
         String role = txtRole.getText();
 
-        if (!name.matches("[A-Za-z ]+")) {
-            new Alert(Alert.AlertType.ERROR, "Invalid name").show();
-            txtE_Name.requestFocus();
-            return;
-        } else if (!department.matches(".{3,}")) {
-            new Alert(Alert.AlertType.ERROR, "Address should be at least 3 characters long").show();
-            txtDepartment.requestFocus();
-            return;
-        }
-        try {
-            if (existEmployee(id)) {
-                new Alert(Alert.AlertType.ERROR, id + " already exists").show();
+        if (btnSave.getText().equalsIgnoreCase("save")) {
+            try {
+                if (existEmployee(id)) {
+                    new Alert(Alert.AlertType.ERROR, id + " already exists").show();
+                }
+                employeeBO.addEmployee(new EmployeeDTO(id, name, department, role));
+
+                tblEmployee.getItems().add(new EmployeeTm(id, name, department, role));
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to save the employee " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-            employeeBO.addEmployee(new EmployeeDTO(id,name,department,role));
+        }else {
 
-            tblEmployee.getItems().add(new EmployeeTm(id, name, department,role));
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to save the employee " + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        EmployeeTm selectedEmployee = tblEmployee.getSelectionModel().getSelectedItem();
-        selectedEmployee.setE_name(name);
-        selectedEmployee.setDepartment(department);
-        tblEmployee.refresh();
-
-        btnAddNewEmployee.fire();
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String id = txtEmployeeId.getText();
-        String name = txtE_Name.getText();
-        String department = txtDepartment.getText();
-        String role = txtRole.getText();
 
         try {
             if (!existEmployee(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such employee associated with the id " + id).show();
             }
-            employeeBO.updateEmployee(new EmployeeDTO(id,name,department,role));
+            employeeBO.updateEmployee(new EmployeeDTO(id, name, department, role));
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to update the employee " + id + e.getMessage()).show();
@@ -232,8 +212,10 @@ public class EmployeeFormController {
 
         EmployeeTm selectedEmployee = tblEmployee.getSelectionModel().getSelectedItem();
         selectedEmployee.setE_name(name);
-        selectedEmployee.setDepartment(department);
+        //selectedEmployee.setDepartment(department);
         tblEmployee.refresh();
+    }
+     btnAddNewEmployee.fire();
 
     }
 
@@ -293,6 +275,12 @@ public class EmployeeFormController {
         List<EmployeeTm> tempEmployeeList = new ArrayList<>(tblEmployee.getItems());
         Collections.sort(tempEmployeeList);
         return tempEmployeeList.get(tempEmployeeList.size() - 1).getEmployee_id();
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    }
+
+    public void txtSearchOnAction(ActionEvent actionEvent) {
     }
 
 

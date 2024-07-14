@@ -71,7 +71,7 @@ public class ManageCustomerFormController {
         tblCustomer.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         tblCustomer.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         tblCustomer.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("contact"));
-        tblCustomer.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
+        tblCustomer.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("address"));
 
         initUI();
 
@@ -85,6 +85,7 @@ public class ManageCustomerFormController {
                 txtName.setText(newValue.getName());
                 txtContact.setText(newValue.getContact());
                 txtAddress.setText(newValue.getAddress());
+
                 txtCustomerId.setDisable(false);
                 txtName.setDisable(false);
                 txtContact.setDisable(false);
@@ -101,9 +102,12 @@ public class ManageCustomerFormController {
         txtName.clear();
         txtContact.clear();
         txtAddress.clear();
+
         txtCustomerId.setDisable(true);
         txtName.setDisable(true);
+        txtContact.setDisable(true);
         txtAddress.setDisable(true);
+
         txtCustomerId.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
@@ -190,8 +194,8 @@ public class ManageCustomerFormController {
     void btnSaveOnAction(ActionEvent event) {
         String id = txtCustomerId.getText();
         String name = txtName.getText();
-        String address = txtAddress.getText();
         String contact = txtContact.getText();
+        String address = txtAddress.getText();
 
         if (!name.matches("[A-Za-z ]+")) {
             new Alert(Alert.AlertType.ERROR, "Invalid name").show();
@@ -202,56 +206,53 @@ public class ManageCustomerFormController {
             txtAddress.requestFocus();
             return;
         }
-        try {
-            if (existCustomer(id)) {
-                new Alert(Alert.AlertType.ERROR, id + " already exists").show();
+        if (btnSave.getText().equalsIgnoreCase("save")) {
+            try {
+                if (existCustomer(id)) {
+                    new Alert(Alert.AlertType.ERROR, id + " already exists").show();
+                }
+
+                //Add Customer
+                customerBO.addCustomer(new CustomerDTO(id, name, contact, address));
+
+                tblCustomer.getItems().add(new CustomerTm(id, name, contact, address));
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+
+//    void btnUpdateOnAction(ActionEvent event) {
+//        String id = txtCustomerId.getText();
+//        String name = txtName.getText();
+//        String address = txtAddress.getText();
+//        String contact = txtContact.getText();
+
+            try {
+                if (!existCustomer(id)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+                }
+
+                //Update Customer
+                customerBO.updateCustomer(new CustomerDTO(id, name, contact, address));
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
-            //Add Customer
-            customerBO.addCustomer(new CustomerDTO(id,name,address,contact));
-
-            tblCustomer.getItems().add(new CustomerTm(id, name, address,contact));
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            CustomerTm selectedCustomer = tblCustomer.getSelectionModel().getSelectedItem();
+            selectedCustomer.setName(name);
+            selectedCustomer.setAddress(address);
+            tblCustomer.refresh();
         }
-        CustomerTm selectedCustomer = tblCustomer.getSelectionModel().getSelectedItem();
-        selectedCustomer.setName(name);
-        selectedCustomer.setAddress(address);
-        tblCustomer.refresh();
+            btnAddNewCustomer.fire();
 
-        btnAddNewCustomer.fire();
-
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String id = txtCustomerId.getText();
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String contact = txtContact.getText();
-
-        try {
-            if (!existCustomer(id)) {
-                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
-            }
-
-            //Update Customer
-            customerBO.updateCustomer(new CustomerDTO(id,name,address,contact));
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
-        CustomerTm selectedCustomer = tblCustomer.getSelectionModel().getSelectedItem();
-        selectedCustomer.setName(name);
-        selectedCustomer.setAddress(address);
-        tblCustomer.refresh();
-
-    }
 
 //    @FXML
 //    void txtSearchOnAction(ActionEvent event) throws SQLException {
@@ -309,5 +310,16 @@ public class ManageCustomerFormController {
         List<CustomerTm> tempCustomersList = new ArrayList<>(tblCustomer.getItems());
         Collections.sort(tempCustomersList);
         return tempCustomersList.get(tempCustomersList.size() - 1).getCustomer_id();
+    }
+
+    public void btnClearOnAction(ActionEvent actionEvent) {
+        clearFields();
+    }
+
+    private void clearFields() {
+        txtCustomerId.setText("");
+        txtName.setText("");
+        txtAddress.setText("");
+        txtContact.setText("");
     }
 }

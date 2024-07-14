@@ -25,24 +25,24 @@
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
-        <Label layoutX="122.0" layoutY="445.0" text="Supplier Address*">
+        <Label layoutX="122.0" layoutY="445.0" text="Supplier Tel*">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
-        <Label layoutX="120.0" layoutY="513.0" prefHeight="16.0" prefWidth="120.0" text="Supplier Tel*">
+        <Label layoutX="120.0" layoutY="513.0" prefHeight="16.0" prefWidth="153.0" text="Supplier Address*">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
         <TextField fx:id="txtSupId" layoutX="121.0" layoutY="326.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
         <TextField fx:id="txtSupName" layoutX="121.0" layoutY="400.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
-        <TextField fx:id="txtSupAddress" layoutX="121.0" layoutY="475.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
-        <TextField fx:id="txtSupTel" layoutX="121.0" layoutY="543.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
+        <TextField fx:id="txtSupTel" layoutX="121.0" layoutY="475.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
+        <TextField fx:id="txtSupAddress" layoutX="121.0" layoutY="543.0" opacity="0.25" prefHeight="24.0" prefWidth="200.0" />
         <TableView fx:id="tblSupplier" layoutX="79.0" layoutY="109.0" prefHeight="146.0" prefWidth="605.0">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="147.0" text="ID" />
                 <TableColumn fx:id="colName" prefWidth="172.0" text="Name" />
-                <TableColumn fx:id="colAddress" prefWidth="149.0" text="Address" />
-                <TableColumn fx:id="colTel" prefWidth="135.0" text="Tel" />
+                <TableColumn fx:id="colTel" prefWidth="149.0" text="Tel" />
+                <TableColumn fx:id="colAddress" prefWidth="135.0" text="Address" />
             </columns>
         </TableView>
       <ImageView fitHeight="68.0" fitWidth="61.0" layoutX="37.0" layoutY="9.0">

@@ -60,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User checkPassword(String username, String password) throws SQLException, ClassNotFoundException {
-        ResultSet rst= SQLUtil.execute("SELECT user_id,username, password FROM users WHERE userid = ?", username);
+        ResultSet rst= SQLUtil.execute("SELECT user_id,username, password FROM User WHERE password = ?",password);
         rst.next();
         return new User(rst.getString("user_id"), rst.getString("username"),rst.getString("password"));
     }

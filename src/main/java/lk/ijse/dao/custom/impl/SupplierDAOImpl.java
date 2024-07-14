@@ -33,19 +33,19 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public boolean add(Supplier entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("INSERT INTO Supplier (supplier_id,name, address,contact) VALUES (?,?,?,?)", entity.getSupplier_id(), entity.getName(), entity.getAddress(), entity.getContact());
+        return SQLUtil.execute("INSERT INTO Supplier (supplier_id,name,contact,address) VALUES (?,?,?,?)", entity.getSupplier_id(), entity.getName(), entity.getContact(),entity.getAddress());
     }
 
     @Override
     public boolean update(Supplier entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("UPDATE Supplier SET name=?, address=?, contact=? WHERE supplier_id=?", entity.getName(), entity.getAddress(), entity.getContact(), entity.getSupplier_id());
+        return SQLUtil.execute("UPDATE Supplier SET name=?, contact=?,address=? WHERE supplier_id=?", entity.getName(), entity.getContact(),entity.getAddress(), entity.getSupplier_id());
     }
 
     @Override
     public String generateNewID() throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.execute("SELECT supplier_id FROM Supplier ORDER BY id DESC LIMIT 1;");
+        ResultSet rst = SQLUtil.execute("SELECT supplier_id FROM Supplier ORDER BY supplier_id DESC LIMIT 1;");
         if (rst.next()) {
-            String id = rst.getString("id");
+            String id = rst.getString("supplier_id");
             int newSupplierId = Integer.parseInt(id.replace("S00-", "")) + 1;
             return String.format("S00-%03d", newSupplierId);
         } else {

@@ -60,8 +60,20 @@ public class RegistrationFormController {
         }
         clearTextFilds();
         generateNextUserId();
+        navigateToTheLoginForm();
 
 
+    }
+
+    private void navigateToTheLoginForm() throws IOException{
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/Main_Form.fxml"));
+
+        Scene scene = new Scene(rootNode);
+
+        Stage stage = (Stage) this.rootnode.getScene().getWindow();
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.setTitle("Dashboard Form");
     }
 
 

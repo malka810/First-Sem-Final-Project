@@ -12,11 +12,14 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ProductBO;
 import lk.ijse.dto.ProductDTO;
+import lk.ijse.view.tdm.CustomerTm;
 import lk.ijse.view.tdm.ProductTm;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ProductFormController {
 
@@ -84,11 +87,11 @@ public class ProductFormController {
     public void initialize() {
         tblProduct.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("product_id"));
         tblProduct.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("product_name"));
-        tblProduct.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
-        tblProduct.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("category"));
-        tblProduct.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty_on_hand"));
-        tblProduct.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("weight"));
-        tblProduct.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        tblProduct.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("description"));
+        tblProduct.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("category"));
+        tblProduct.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("qty_on_hand"));
+        tblProduct.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("weight"));
+        tblProduct.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
 
         initUI();
 
@@ -187,7 +190,7 @@ public class ProductFormController {
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event){
+    void btnSaveOnAction(ActionEvent event) {
         String id = txtProductId.getText();
         String productName = txtProductName.getText();
         String description = txtDescription.getText();
@@ -205,7 +208,7 @@ public class ProductFormController {
             new Alert(Alert.AlertType.ERROR, "Invalid qty on hand").show();
             txtQtyOnHand.requestFocus();
             return;
-        }else if (!txtWeight.getText().matches("\\d+(\\.\\d+)?\\s*")) {
+        } else if (!txtWeight.getText().matches("\\d+(\\.\\d+)?\\s*")) {
             new Alert(Alert.AlertType.ERROR, "Invalid weight").show();
             txtWeight.requestFocus();
             return;
@@ -213,68 +216,46 @@ public class ProductFormController {
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
         BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
         BigDecimal weight = new BigDecimal(txtWeight.getText()).setScale(2);
-
+        if (btnSave.getText().equalsIgnoreCase("save")) {
             try {
                 if (existProduct(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
                 //Save Item
-                productBO.saveProduct(new ProductDTO(id,productName, description,category, qtyOnHand, unitPrice,weight));
+                productBO.saveProduct(new ProductDTO(id, productName, description, category, qtyOnHand, unitPrice, weight));
 
-                tblProduct.getItems().add(new ProductTm(id,productName, description,category, qtyOnHand, unitPrice,weight));
+                tblProduct.getItems().add(new ProductTm(id, productName, description, category, qtyOnHand, unitPrice, weight));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
 
-        }
-
-        btnAddNewProduct.fire();
-
-    }
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String id = txtProductId.getText();
-        String productName = txtProductName.getText();
-        String description = txtDescription.getText();
-        String category = txtCategory.getText();
-        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
-        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
-        BigDecimal weight = new BigDecimal(txtWeight.getText()).setScale(2);
-
-        try {
-            if (!existProduct(id)) {
-                new Alert(Alert.AlertType.ERROR, "There is no such employee associated with the id " + id).show();
             }
-            productBO.updateProduct(new ProductDTO(id,productName, description,category, qtyOnHand, unitPrice,weight));
+        } else {
 
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to update the employee " + id + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            try {
+                if (!existProduct(id)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such employee associated with the id " + id).show();
+                }
+                productBO.updateProduct(new ProductDTO(id, productName, description, category, qtyOnHand, unitPrice, weight));
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to update the employee " + id + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
         }
-
+        btnAddNewProduct.fire();
     }
 
-//    @FXML
-//    void txtSearchOnAction(ActionEvent event) throws SQLException {
-//        String ProductId = txtProductId.getText();
-//
-//        Product product = ProductRepo.searchById(ProductId);
-//        if (product != null) {
-//            txtProductId.setText(product.getProductId());
-//            txtProductName.setText(product.getProductName());
-//            txtDescription.setText(product.getDescription());
-//            txtCategory.setText(product.getCategory());
-//            txtQtyOnHand.setText(String.valueOf(product.getQuantityOnHand()));
-//            txtWeight.setText(String.valueOf(product.getWeight()));
-//            txtUnitPrice.setText(String.valueOf(product.getUnitPrice()));
-//        } else {
-//            new Alert(Alert.AlertType.INFORMATION, "Product not found!").show();
-//        }
-//
-//    }
+    @FXML
+    void txtSearchOnAction(ActionEvent event) {
+
+
+    }
     @FXML
     void btnAddNewProductOnAction(ActionEvent event) {
         txtProductId.setDisable(false);
@@ -300,15 +281,48 @@ public class ProductFormController {
 
     private String generateNewId() {
         try {
+            //Generate New ID
             return productBO.generateNewId();
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return "P00-001";
+
+
+        if (tblProduct.getItems().isEmpty()) {
+            return "P00-001";
+        } else {
+            String id = getLastProductId();
+            int newCustomerId = Integer.parseInt(id.replace("P", "")) + 1;
+            return String.format("P00-%03d", newCustomerId);
+        }
     }
+
+    private String getLastProductId() {
+        List<ProductTm> tempProductList = new ArrayList<>(tblProduct.getItems());
+        Collections.sort(tempProductList);
+        return tempProductList.get(tempProductList.size() - 1).getProduct_id();
     }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnClearOnAction(ActionEvent actionEvent) {
+        clearFields();
+    }
+
+    private void clearFields() {
+        txtProductId.setText("");
+        txtProductName.setText("");
+        txtDescription.setText("");
+        txtCategory.setText("");
+        txtUnitPrice.setText("");
+        txtQtyOnHand.setText("");
+        txtWeight.setText("");
+
+    }
+}
 
 
 

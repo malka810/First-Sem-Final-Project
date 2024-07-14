@@ -15,8 +15,9 @@ public class CustomEntity {
     //Customer
     private String customer_id;
     private String name;
-    private String address;
     private String contact;
+    private String address;
+
 
     //Product
 

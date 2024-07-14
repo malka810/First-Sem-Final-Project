@@ -32,42 +32,35 @@
                </font>
             </Label>
             <TextField fx:id="txtName" opacity="0.27" prefHeight="24.0" prefWidth="235.0" />
-            <Label prefHeight="45.0" prefWidth="142.0" text="Customer Address*">
+            <Label prefHeight="45.0" prefWidth="142.0" text="Customer Contact*">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="txtAddress" opacity="0.27" prefHeight="24.0" prefWidth="235.0" />
-            <Label prefHeight="45.0" prefWidth="133.0" text="Customer Contact*">
+            <TextField fx:id="txtContact" opacity="0.27" prefHeight="24.0" prefWidth="235.0" />
+            <Label prefHeight="45.0" prefWidth="133.0" text="Customer Address*">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="txtContact" opacity="0.27" prefHeight="24.0" prefWidth="235.0" />
+            <TextField fx:id="txtAddress" opacity="0.27" prefHeight="24.0" prefWidth="235.0" />
          </children>
       </VBox>
       <TableView fx:id="tblCustomer" layoutX="71.0" layoutY="85.0" prefHeight="190.0" prefWidth="622.0" style="-fx-background-color: #fdf6f1;">
         <columns>
           <TableColumn fx:id="colCustomerId" prefWidth="140.0" text="CustomerId" />
           <TableColumn fx:id="colName" prefWidth="161.0" text="Name" />
-            <TableColumn fx:id="colAddress" minWidth="2.0" prefWidth="165.0" text="Address" />
-            <TableColumn fx:id="colContact" minWidth="0.0" prefWidth="155.0" text="Contact" />
+            <TableColumn fx:id="colContact" minWidth="2.0" prefWidth="165.0" text="Contact" />
+            <TableColumn fx:id="colAddress" minWidth="0.0" prefWidth="155.0" text="Address" />
         </columns>
       </TableView>
-      <TextField fx:id="txtSearchId" alignment="CENTER_RIGHT" layoutX="572.0" layoutY="31.0" onAction="#txtSearchOnAction" prefHeight="24.0" prefWidth="167.0" promptText="Search here" />
       <VBox layoutX="565.0" layoutY="370.0" prefHeight="124.0" prefWidth="128.0">
          <children>
             <JFXButton fx:id="btnSave" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="128.0" text="Save" />
-            <JFXButton fx:id="btnUpdate" onAction="#btnUpdateOnAction" prefHeight="31.0" prefWidth="128.0" text="Update" />
             <JFXButton fx:id="btnDelete" onAction="#btnDeleteOnAction" prefHeight="31.0" prefWidth="128.0" text="Delete" />
             <JFXButton fx:id="btnClear" onAction="#btnClearOnAction" prefHeight="31.0" prefWidth="128.0" text="Clear" />
          </children>
       </VBox>
-      <ImageView fitHeight="21.0" fitWidth="16.0" layoutX="583.0" layoutY="32.0">
-         <image>
-            <Image url="@../icon/search.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="30.0" layoutY="15.0">
          <image>
             <Image url="@../icon/customer-48.png" />

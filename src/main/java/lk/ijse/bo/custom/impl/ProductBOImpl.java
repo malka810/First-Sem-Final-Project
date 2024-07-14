@@ -17,14 +17,14 @@ public class ProductBOImpl implements ProductBO {
         ArrayList<Product> allEntityData = productDAO.getAll();
         ArrayList<ProductDTO> allDTOData= new ArrayList<>();
         for (Product p : allEntityData) {
-            allDTOData.add(new ProductDTO(p.getProduct_id(),p.getProduct_name(),p.getDescription(),p.getCategory(),p.getQty_on_hand(),p.getUnit_price(),p.getWeight()));
+            allDTOData.add(new ProductDTO(p.getProduct_id(),p.getProduct_name(),p.getDescription(),p.getCategory(),p.getQty_on_hand(),p.getWeight(),p.getUnit_price()));
         }
         return allDTOData;
     }
 
     @Override
     public boolean saveProduct(ProductDTO dto) throws SQLException, ClassNotFoundException {
-        return productDAO.add(new Product(dto.getProduct_id(),dto.getProduct_name(),dto.getDescription(),dto.getCategory(),dto.getQty_on_hand(),dto.getUnit_price(),dto.getWeight()));
+        return productDAO.add(new Product(dto.getProduct_id(),dto.getProduct_name(),dto.getDescription(),dto.getCategory(),dto.getQty_on_hand(),dto.getWeight(),dto.getUnit_price()));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ProductBOImpl implements ProductBO {
 
     @Override
     public boolean updateProduct(ProductDTO dto) throws SQLException, ClassNotFoundException {
-        return productDAO.add(new Product(dto.getProduct_id(),dto.getProduct_name(),dto.getDescription(),dto.getCategory(),dto.getQty_on_hand(),dto.getUnit_price(),dto.getWeight()));
+        return productDAO.add(new Product(dto.getProduct_id(),dto.getProduct_name(),dto.getDescription(),dto.getCategory(),dto.getQty_on_hand(),dto.getWeight(),dto.getUnit_price()));
     }
 
     @Override

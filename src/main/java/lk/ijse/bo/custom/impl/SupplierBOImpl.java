@@ -17,7 +17,7 @@ public class SupplierBOImpl implements SupplierBO {
         ArrayList<SupplierDTO> allSupplier= new ArrayList<>();
         ArrayList<Supplier> all = supplierDAO.getAll();
         for (Supplier s : all) {
-            allSupplier.add(new SupplierDTO(s.getSupplier_id(),s.getName(),s.getAddress(),s.getContact()));
+            allSupplier.add(new SupplierDTO(s.getSupplier_id(),s.getName(),s.getContact(),s.getAddress()));
         }
         return allSupplier;
     }
@@ -34,12 +34,12 @@ public class SupplierBOImpl implements SupplierBO {
 
     @Override
     public boolean addSupplier(SupplierDTO dto) throws SQLException, ClassNotFoundException {
-        return supplierDAO.add(new Supplier(dto.getSupplier_id(), dto.getName(), dto.getAddress(),dto.getContact()));
+        return supplierDAO.add(new Supplier(dto.getSupplier_id(), dto.getName(),dto.getContact(),dto.getAddress()));
     }
 
     @Override
     public boolean updateSupplier(SupplierDTO dto) throws SQLException, ClassNotFoundException {
-        return supplierDAO.update(new Supplier(dto.getSupplier_id(),dto.getName(),dto.getAddress(),dto.getContact()));
+        return supplierDAO.update(new Supplier(dto.getSupplier_id(),dto.getName(),dto.getContact(),dto.getAddress()));
     }
 
     @Override
